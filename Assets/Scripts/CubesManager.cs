@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CubesManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class CubesManager : MonoBehaviour
     [SerializeField] private GameObject startingCube;
 
     private List<GameObject> cubesStack;
+    public UnityEvent shakeEvent;
+
 
     private void Start()
     {
@@ -56,6 +59,8 @@ public class CubesManager : MonoBehaviour
                 break;
             }
         }
+
+        shakeEvent.Invoke();
 
         if (cubesStack.Count == 0)
         {

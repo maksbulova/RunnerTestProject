@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
         GameObject block = createdBlocks.Dequeue();
         if (Application.isPlaying)
         {
-            Destroy(block);
+            Destroy(block, 5f);
         }
         else
         {
