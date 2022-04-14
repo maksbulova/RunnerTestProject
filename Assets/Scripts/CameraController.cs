@@ -8,6 +8,6 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        
+        // gameObject.transform.Translate();
     }
 }

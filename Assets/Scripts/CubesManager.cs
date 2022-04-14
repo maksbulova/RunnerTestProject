@@ -56,5 +56,10 @@ public class CubesManager : MonoBehaviour
                 break;
             }
         }
+
+        if (cubesStack.Count == 0)
+        {
+            // Game over
+        }
     }
 }

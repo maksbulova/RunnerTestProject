@@ -7,17 +7,24 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject[] levelBlocks;
     [SerializeField] private Transform blockContainer;
     [SerializeField] private float blockSize;
+    [SerializeField] private int initialBlocksAmount;
 
     private Queue<GameObject> createdBlocks;
     private Vector3 newBlockPosition;
 
-    private void Awake()
+
+    private void Start()
     {
-        ResetParams();
+        createdBlocks = new Queue<GameObject>();
+        newBlockPosition = Vector3.back * blockSize;
+
+        for (int i = 0; i < initialBlocksAmount; i++)
+        {
+            AddBlock(false);
+        }
     }
 
-    [ContextMenu("Add level block.")]
-    public void AddBlock()
+    public void AddBlock(bool animated = true)
     {
         int randomBlockIndex = Random.Range(0, levelBlocks.Length);
         GameObject randomBlock = levelBlocks[randomBlockIndex];
@@ -27,25 +34,25 @@ public class LevelManager : MonoBehaviour
 
         createdBlocks.Enqueue(newBlock);
 
-        if (Application.isPlaying)
+        if (Application.isPlaying && animated)
         {
             StartCoroutine(BlockPopUpAnimation(newBlock));
         }
     }
 
-    [ContextMenu("Remove level block.")]
     public void RemoveBlock()
     {
         GameObject block = createdBlocks.Dequeue();
-        Destroy(block);
+        if (Application.isPlaying)
+        {
+            Destroy(block);
+        }
+        else
+        {
+            DestroyImmediate(block);
+        }
     }
 
-    [ContextMenu("Reset params.")]
-    public void ResetParams()
-    {
-        createdBlocks = new Queue<GameObject>();
-        newBlockPosition = Vector3.zero;
-    }
 
     private IEnumerator BlockPopUpAnimation(GameObject block)
     {

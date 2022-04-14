@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float forwardSpeed;
-    public float sideBound;
+    [SerializeField] private float forwardSpeed;
+    [SerializeField] private float sideBound;
 
+    [SerializeField] private LevelManager levelManager;
 
     private void Update()
     {
@@ -24,5 +25,15 @@ public class PlayerController : MonoBehaviour
         Vector3 newPosition = transform.position + forwardMove + sideMove;
         transform.position = newPosition;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            levelManager.AddBlock();
+            levelManager.RemoveBlock();
+        }
+    }
+
 
 }
