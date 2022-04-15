@@ -9,6 +9,9 @@ public class CubesManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject startingCube;
     public Menu menu;
+    [SerializeField] private GameObject popUpText;
+    [SerializeField] private AnimationCurve popUpCurve;
+    [SerializeField] private float popUpduration;
 
     private List<GameObject> cubesStack;
     public UnityEvent shakeEvent;
@@ -35,16 +38,35 @@ public class CubesManager : MonoBehaviour
 
     }
 
+    const float jumpHeight = 2f;
     private void AddCube(GameObject newCube)
     {
         // TODO jump animation
-        player.transform.Translate(Vector3.up * 2f);
+        player.transform.Translate(Vector3.up * jumpHeight);
 
         newCube.gameObject.tag = "Untagged";
         newCube.transform.position = player.transform.position + (Vector3.down * 1.5f);
         newCube.transform.SetParent(cubeHolder);
 
+        GameObject popUpEffect = Instantiate(popUpText, newCube.transform.position, Quaternion.identity);
+        StartCoroutine(AnimatePopUp(popUpEffect));
+
         cubesStack.Add(newCube);
+    }
+
+    private IEnumerator AnimatePopUp(GameObject effect)
+    {
+        float t = 0;
+        while (t < popUpduration)
+        {
+            t += Time.deltaTime;
+
+            Vector3 moveDir = new Vector3(1, 1, 0) * popUpCurve.Evaluate(t / popUpduration);
+            effect.transform.Translate(moveDir * Time.deltaTime);
+
+            yield return null;
+        }
+        Destroy(effect);
     }
 
     private void RemoveCube(GameObject obstacle)

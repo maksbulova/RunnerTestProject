@@ -322,6 +322,32 @@ MonoBehaviour:
   player: {fileID: 2099272944}
   startingCube: {fileID: 1369700146}
   menu: {fileID: 2136217905}
+  popUpText: {fileID: 8826951187986414746, guid: e3f3042afd3e879458c1e9b8535296e0, type: 3}
+  popUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.010173813
+      outSlope: -0.010173813
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.28573728
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.8248472
+      outSlope: -2.8248472
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.063633084
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  popUpduration: 2
   shakeEvent:
     m_PersistentCalls:
       m_Calls:
