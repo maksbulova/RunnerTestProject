@@ -8,6 +8,7 @@ public class CubesManager : MonoBehaviour
     [SerializeField] private Transform cubeHolder;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject startingCube;
+    public Menu menu;
 
     private List<GameObject> cubesStack;
     public UnityEvent shakeEvent;
@@ -48,23 +49,44 @@ public class CubesManager : MonoBehaviour
 
     private void RemoveCube(GameObject obstacle)
     {
+        float playerElevation = Mathf.Floor(player.transform.TransformPoint(transform.position).y);
+        float obstacleElevation = Mathf.Floor(obstacle.transform.TransformPoint(transform.position).y);
+
+        if (obstacleElevation == playerElevation)
+        {
+            PlayerDeath();
+        }
+
+        // Stop controlling cubes stopped by obstacle.
         foreach (GameObject cube in cubesStack)
         {
-            float obstacleElevation = obstacle.transform.TransformPoint(transform.position).y;
-            float cubeElevation = cube.transform.TransformPoint(transform.position).y;
-            if (Mathf.Floor(obstacleElevation) == Mathf.Floor(cubeElevation))
+            float cubeElevation = Mathf.Floor(cube.transform.TransformPoint(transform.position).y);
+
+            if (obstacleElevation == cubeElevation)
             {
                 cube.transform.SetParent(null, true);
                 cubesStack.Remove(cube);
+
+                // Check cube under character.
+                if (cubeElevation == playerElevation - 1)
+                {
+                    PlayerDeath();
+                }
                 break;
             }
         }
 
+        Handheld.Vibrate();
         shakeEvent.Invoke();
-
-        if (cubesStack.Count == 0)
-        {
-            // Game over
-        }
     }
+
+    public void PlayerDeath()
+    {
+        Rigidbody playerRB = player.GetComponent<Rigidbody>();
+        playerRB.constraints = RigidbodyConstraints.None;
+        playerRB.AddForce(Vector3.forward * 5);
+
+        menu.EndLevel();
+    }
+
 }
