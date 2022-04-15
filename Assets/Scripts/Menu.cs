@@ -52,7 +52,7 @@ public class Menu : MonoBehaviour
         gameState = GameState.gameOver;
         startScreen.SetActive(false);
         gameOverScreen.SetActive(true);
-        warpEffect.Pause();
+        warpEffect.emissionRate = 0;
     }
 
     // Called by button.

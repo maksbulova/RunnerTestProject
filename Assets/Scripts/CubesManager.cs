@@ -12,6 +12,7 @@ public class CubesManager : MonoBehaviour
     [SerializeField] private GameObject popUpText;
     [SerializeField] private AnimationCurve popUpCurve;
     [SerializeField] private float popUpduration;
+    [SerializeField] private TrailRenderer trail;
 
     private List<GameObject> cubesStack;
     public UnityEvent shakeEvent;
@@ -100,6 +101,14 @@ public class CubesManager : MonoBehaviour
 
         Handheld.Vibrate();
         shakeEvent.Invoke();
+
+        trail.emitting = false;
+        Invoke("StartTrail", 1f);
+    }
+
+    private void StartTrail()
+    {
+        trail.emitting = true;
     }
 
     public void PlayerDeath()
